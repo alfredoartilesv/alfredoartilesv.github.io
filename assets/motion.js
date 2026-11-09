@@ -218,18 +218,19 @@
       const body = $(".station__body", st), num = $(".station__num", st);
       const side = st.classList.contains("station--right") ? 1 : -1;
       st.classList.add("in");
-      // 1: slides in from the left, 2: from the right, 3: rises and unfolds
+      // 1: slides in from the left, 2: from the right, 3: rises and settles
       const from = [
         { x: small() ? -50 : -200, y: 40, rotate: -3, autoAlpha: 0 },
         { x: small() ? 50 : 200, y: 40, rotate: 3, autoAlpha: 0 },
-        { x: 0, y: 130, scale: 0.88, rotateX: 18, transformPerspective: 900, autoAlpha: 0 }
+        { x: 0, y: 110, scale: 0.92, autoAlpha: 0 }
       ][i % 3];
-      gsap.fromTo(body, from, { x: 0, y: 0, rotate: 0, scale: 1, rotateX: 0, autoAlpha: 1, ease: "power3.out",
+      gsap.fromTo(body, from, { x: 0, y: 0, rotate: 0, scale: 1, autoAlpha: 1, ease: "power3.out", immediateRender: true,
         scrollTrigger: scrub({ trigger: st, start: "top 98%", end: "top 55%" }) });
-      gsap.fromTo(num, { scale: 0.2, rotate: -90 + i * 60 }, { scale: 1, rotate: 0, ease: "back.out(2)",
+      gsap.fromTo(num, { scale: 0.2, rotate: -90 + i * 60 }, { scale: 1, rotate: 0, ease: "back.out(2)", immediateRender: true,
         scrollTrigger: scrub({ trigger: st, start: "top 90%", end: "top 62%" }) });
-      // exit: leans away as it leaves the top
-      gsap.to(body, { y: -50, rotate: -1.6 * side, ease: "none",
+      // exit: the whole station leans away as it leaves the top. It animates the wrapper, not the card,
+      // so it can never fight the entrance tween (that clash made the last card jitter when scrolling back and forth)
+      gsap.fromTo(st, { y: 0, rotate: 0 }, { y: -50, rotate: -1.6 * side, ease: "none", immediateRender: false,
         scrollTrigger: { trigger: st, start: "bottom 35%", end: "bottom top", scrub: true } });
     });
   }
