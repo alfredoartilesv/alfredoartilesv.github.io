@@ -7,7 +7,8 @@ Personal CV site of **Alfredo Artiles**, a C/C++ and Linux software engineer wor
 A static site with no build step and no dependencies, hosted free on GitHub Pages.
 
 ## Features
-- Parallax hero with a train riding along the scroll-progress bar, scroll reveals, a full-screen menu and word-by-word headlines
+- Smooth scrolling (Lenis) with scroll-scrubbed motion (GSAP ScrollTrigger): hero layers rise in on load and drift at different speeds, headlines rise line by line, paragraphs fade in character by character, and sections stack, with each one shrinking and darkening as the next slides over it
+- A train riding along the scroll-progress bar, a full-screen menu overlay
 - Experience laid out as a metro line, and skills shown on a split-flap departure board
 - English and Spanish, remembered between visits
 - Curated project tickets, with live GitHub data and manual entries for private repos
@@ -21,7 +22,9 @@ index.html          page markup (EN and ES in one file)
 404.html            "wrong platform" page
 assets/
   style.css         all styles and animations
-  main.js           interactions and the GitHub fetch
+  main.js           base interactions, language switch and the GitHub fetch
+  motion.js         smooth scroll + scroll-scrubbed animations (optional layer)
+  vendor/           gsap, ScrollTrigger and Lenis, self-hosted
   config.js         the one file to edit for day-to-day changes
   og.png            share image (1200x630)
   cv_*.pdf          CVs built from the LaTeX source
@@ -43,6 +46,8 @@ python -m http.server
 ```
 
 ## Credits
-Layout and motion inspired by [carnilove.ashfall.studio](https://carnilove.ashfall.studio/). Fonts: Archivo and JetBrains Mono (Google Fonts).
+Layout and motion inspired by [carnilove.ashfall.studio](https://carnilove.ashfall.studio/). Motion built with [GSAP](https://gsap.com/) and [Lenis](https://lenis.darkroom.engineering/). Fonts: Archivo and JetBrains Mono (Google Fonts).
+
+With `prefers-reduced-motion` on, or if the scripts in `assets/vendor/` fail to load, the site falls back to simple fade-in reveals.
 
 The CV content and PDFs are personal. Please don't reuse them as your own.

@@ -74,7 +74,7 @@
     bar.style.transform = `scaleX(${p})`;
     $(".header").classList.toggle("scrolled", scrollY > 80);
     train.style.left = `${p * 100}%`;
-    if (!reduce && scrollY < innerHeight * 1.2) {
+    if (!reduce && !root.classList.contains("motion") && scrollY < innerHeight * 1.2) {
       layers.forEach(l => {
         const s = +l.dataset.speed || 0;
         l.style.transform = `translate3d(${mx * s * -40}px,${scrollY * s + my * s * -16}px,0)`;

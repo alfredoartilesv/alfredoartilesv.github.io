@@ -186,3 +186,25 @@ code{font:600 .9em var(--f-mono);background:rgba(15,36,55,.08);padding:1px 6px;b
 .ticket--private:hover{box-shadow:none}
 .ticket--private .ticket__go{margin-left:auto;font-weight:600;letter-spacing:.04em}
 .ticket--private h3::after{content:"PRIVATE";display:inline-block;vertical-align:middle;margin-left:10px;font:700 10px var(--f-mono);letter-spacing:.12em;border:2px solid var(--red);color:var(--red);border-radius:6px;padding:2px 6px;transform:rotate(-6deg)}
+
+/* ===== motion mode (added by motion.js): stacking sections + smooth scroll ===== */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+html.motion{scroll-behavior:auto}
+html.motion body{overflow-x:clip}
+html.motion .reveal{transition:none}
+html.motion [data-split]:not(.hero [data-split]) .w>span{transition:none}
+html.motion .cw{display:inline-block;white-space:nowrap}
+html.motion .ch{display:inline-block}
+html.motion .hero__sub,html.motion .hero__cta{will-change:transform}
+.stack-inner{position:relative;will-change:transform}
+.stack-overlay{position:absolute;inset:0;background:var(--ink);opacity:0;pointer-events:none;z-index:5;border-radius:inherit}
+html.motion.stack main>section{position:sticky;border-radius:34px 34px 0 0;overflow:clip}
+html.motion.stack main>#hero{border-radius:0}
+html.motion.stack main>#intro{background:var(--cream)}
+html.motion.stack main>#projects{background:var(--cream)}
+html.motion.stack main>#contact{background:var(--cream);min-height:86svh;box-shadow:0 -18px 40px -24px rgba(15,36,55,.5)}
+html.motion.stack main>#intro,html.motion.stack main>#line,html.motion.stack main>#projects,html.motion.stack main>#skills{box-shadow:0 -18px 40px -24px rgba(15,36,55,.5)}
+html.motion main>#hero{position:sticky}
+#hero>.stack-inner{position:absolute;inset:0}
