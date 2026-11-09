@@ -178,7 +178,7 @@
       } else {
         const words = $$(".cw", p);
         gsap.fromTo(words, { y: 36, autoAlpha: 0, rotate: 3 }, { y: 0, autoAlpha: 1, rotate: 0, ease: "power3.out", duration: 0.9, stagger: 0.035,
-          scrollTrigger: { trigger: p, start: "top 88%", toggleActions: "play none none reverse" } });
+          scrollTrigger: { trigger: p, start: "top 88%", toggleActions: "play reset play reset" } });
       }
     });
 
@@ -201,7 +201,7 @@
     if (links) {
       links.classList.remove("reveal"); links.style.opacity = 1; links.style.transform = "none"; links.style.transition = "none";
       gsap.fromTo($$(".btn", links), { scale: 0.5, y: 40, autoAlpha: 0 }, { scale: 1, y: 0, autoAlpha: 1, ease: "back.out(2.2)", duration: 0.8, stagger: 0.09,
-        scrollTrigger: { trigger: links, start: "top 92%", toggleActions: "play none none reverse" } });
+        scrollTrigger: { trigger: links, start: "top 92%", toggleActions: "play reset play reset" } });
     }
   }
 
@@ -245,7 +245,7 @@
     const play = () => {
       const t = $$(".ticket:not(.ticket--skeleton)", box);
       t.forEach(el => el.classList.remove("pop"));
-      const tl = gsap.timeline({ scrollTrigger: { trigger: box, start: "top 88%", toggleActions: "play none none reverse" } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: box, start: "top 88%", toggleActions: "play reset play reset" } });
       t.forEach((el, i) => tl.fromTo(el, { ...FROM[i % 3], autoAlpha: 0 },
         { x: 0, y: 0, scale: 1, rotate: 0, rotateX: 0, rotateY: 0, autoAlpha: 1, ease: i % 3 === 1 ? "back.out(1.8)" : "expo.out", duration: 1.1 }, i * 0.1));
     };
@@ -274,6 +274,19 @@
     e.preventDefault();
     lenis.scrollTo(target === 0 ? 0 : naturalTop(target), { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
   }));
+
+  /* ---------- replay one-shot effects whenever you come back to them ---------- */
+  const cv = window.__cv || {};
+  $$("[data-count]").forEach(el => ScrollTrigger.create({
+    trigger: el, start: "top 92%", end: "bottom top",
+    onEnter: () => cv.countUp && cv.countUp(el), onEnterBack: () => cv.countUp && cv.countUp(el),
+    onLeave: () => (el._cu = (el._cu || 0) + 1, el.textContent = (el.dataset.prefix || "") + "0" + (el.dataset.suffix || "")),
+    onLeaveBack: () => (el._cu = (el._cu || 0) + 1, el.textContent = (el.dataset.prefix || "") + "0" + (el.dataset.suffix || ""))
+  }));
+  ScrollTrigger.create({
+    trigger: "#board", start: "top 85%", end: "bottom top",
+    onEnter: () => cv.replayBoard && cv.replayBoard(), onEnterBack: () => cv.replayBoard && cv.replayBoard()
+  });
 
   /* ---------- go ---------- */
   buildHero(); buildCover(); buildText(); buildLine(); buildTickets(); buildBoard();

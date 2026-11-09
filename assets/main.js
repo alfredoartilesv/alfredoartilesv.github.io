@@ -46,7 +46,7 @@
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add("in");
-    if (e.target.matches("[data-count]")) countUp(e.target);
+    if (e.target.matches("[data-count]") && !root.classList.contains("motion")) countUp(e.target);
     io.unobserve(e.target);
   }), { threshold: .18, rootMargin: "0px 0px -6% 0px" });
   $$(".reveal, [data-split]:not(.hero [data-split]), [data-count]").forEach(el => io.observe(el));
@@ -54,9 +54,11 @@
   /* ---------- counters ---------- */
   function countUp(el) {
     const to = +el.dataset.count, pre = el.dataset.prefix || "", suf = el.dataset.suffix || "";
+    const id = (el._cu = (el._cu || 0) + 1); // a newer run cancels an older one
     if (reduce) { el.textContent = pre + to + suf; return; }
     const t0 = performance.now(), dur = 1400;
     (function step(t) {
+      if (el._cu !== id) return;
       const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 4);
       el.textContent = pre + Math.round(to * e) + suf;
       if (p < 1) requestAnimationFrame(step);
@@ -128,11 +130,13 @@
   const boardIO = new IntersectionObserver(es => {
     if (es[0].isIntersecting) {
       boardVisible = true;
-      $$(".board__cells").forEach(box => $$(".flap", box).forEach((f, i) => settle(f, i * 90)));
+      if (!root.classList.contains("motion")) $$(".board__cells").forEach(box => $$(".flap", box).forEach((f, i) => settle(f, i * 90)));
       boardIO.disconnect();
     }
   }, { threshold: .25 });
   boardIO.observe($("#board"));
+
+  window.__cv = { countUp, replayBoard: () => $$(".board__cells").forEach(box => $$(".flap", box).forEach((f, i) => settle(f, i * 90))) };
 
   /* ---------- GitHub projects ---------- */
   const LANG_COLORS = { "C++": "#f34b7d", C: "#555555", Python: "#3572A5", JavaScript: "#f1e05a", TypeScript: "#3178c6", Java: "#b07219", HTML: "#e34c26", CSS: "#563d7c", Shell: "#89e051", TeX: "#3D6117", Go: "#00ADD8", Rust: "#dea584", "C#": "#178600", Kotlin: "#A97BFF", PowerShell: "#012456" };
