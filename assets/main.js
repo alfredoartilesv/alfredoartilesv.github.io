@@ -148,6 +148,7 @@
     codepriv: { en: "Code private", es: "Código privado" },
     live: { en: "Live app ↗", es: "App en vivo ↗" },
     privnote: { en: "Private repo", es: "Repo privado" },
+    repo: { en: "source code on GitHub", es: "código en GitHub" },
     nodesc: { en: "No description yet.", es: "Sin descripción todavía." }
   })[k][root.dataset.lang];
   let repos = [], filter = "*";
@@ -156,23 +157,38 @@
     const list = repos.filter(r => filter === "*" || r.language === filter);
     tickets.innerHTML = "";
     list.forEach((r, i) => {
+      const info = cfg.repoInfo?.[r.name.toLowerCase()] || {};
+      const live = r.private ? r.url : info.live || r.homepage || "";
+      // A public repo with a live app has two links (repo and app), so its card is a div with a
+      // stretched link to the repo and the app link above it: links can't nest.
+      const split = !r.private && live;
       const link = r.private ? r.url : r.html_url;   // private repos can still link to a live app
-      const a = document.createElement(link ? "a" : "div");
-      a.className = "ticket pop" + (r.private ? " ticket--private" : "");
-      if (link) { a.href = link; a.target = "_blank"; a.rel = "noopener"; }
+      const a = document.createElement(link && !split ? "a" : "div");
+      a.className = "ticket pop" + (r.private ? " ticket--private" : "") + (split ? " ticket--split" : "");
+      if (link && !split) { a.href = link; a.target = "_blank"; a.rel = "noopener"; }
       a.style.setProperty("--i", i);
       a.style.setProperty("--c", LANG_COLORS[r.language] || "#e2472f");
-      const upd = r.private ? L("codepriv") : new Date(r.pushed_at).toLocaleDateString(root.lang, { month: "short", year: "numeric" });
+      const upd = r.private ? L("codepriv") : r.pushed_at ? new Date(r.pushed_at).toLocaleDateString(root.lang, { month: "short", year: "numeric" }) : "GitHub";
+      const licence = r.license?.spdx_id && r.license.spdx_id !== "NOASSERTION" ? r.license.spdx_id : info.licence;
       a.innerHTML = `
         <div class="ticket__top"><span>№ ${String(i + 1).padStart(3, "0")}</span><span>${upd}</span></div>
-        <h3></h3><p></p>
+        <h3>${split ? `<a class="ticket__repo" target="_blank" rel="noopener"></a>` : ""}</h3><p></p>
         <div class="ticket__foot">
           ${r.language ? `<span><span class="dot"></span>${r.language}</span>` : ""}
+          ${licence ? `<span class="ticket__licence"></span>` : ""}
           ${r.stargazers_count ? `<span>★ ${r.stargazers_count}</span>` : ""}
-          ${r.private ? `<span class="ticket__go ticket__lock">${r.url ? L("live") : "🔒 " + L("privnote")}</span>` : `<span class="ticket__go">→</span>`}
+          ${r.private ? `<span class="ticket__go ticket__lock">${r.url ? L("live") : "🔒 " + L("privnote")}</span>`
+            : split ? `<a class="ticket__go ticket__live" target="_blank" rel="noopener">${L("live")}</a>` : `<span class="ticket__go">→</span>`}
         </div>`;
-      $("h3", a).textContent = r.name.replace(/[-_]/g, " ");
-      $("p", a).textContent = (r.private && r.description && typeof r.description === "object" ? r.description[root.lang] || r.description.en : r.description) || L("nodesc");
+      const name = r.name.replace(/[-_]/g, " ");
+      if (split) {
+        const repo = $(".ticket__repo", a);
+        repo.href = r.html_url; repo.textContent = name; repo.setAttribute("aria-label", `${name}: ${L("repo")}`);
+        $(".ticket__live", a).href = live;
+      } else $("h3", a).textContent = name;
+      if (licence) $(".ticket__licence", a).textContent = "⚖ " + licence;
+      const d = info.description || r.description;
+      $("p", a).textContent = (d && typeof d === "object" ? d[root.lang] || d.en : d) || L("nodesc");
       tickets.append(a);
     });
     if (!reduce) $$(".ticket", tickets).forEach(t => {
@@ -217,7 +233,10 @@
       renderChips(); renderRepos();
     } catch {
       tickets.innerHTML = "";
-      repos = privateRepos();
+      // GitHub unreachable: still show the curated public repos we know about, linking to GitHub.
+      const known = (cfg.only || []).filter(n => cfg.repoInfo?.[n.toLowerCase()])
+        .map(n => ({ name: n, html_url: `https://github.com/${user}/${n}` }));
+      repos = known.concat(privateRepos(known));
       if (repos.length) { renderChips(); renderRepos(); }
       note.innerHTML = `${L("err")} ${fallback}`;
     }

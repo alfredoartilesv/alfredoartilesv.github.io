@@ -33,6 +33,7 @@ assets/
 ## Editing the projects
 Open `assets/config.js`:
 - `only`: the repos to show, in order. `[]` shows every public repo.
+- `repoInfo`: per public repo, a bilingual `description` (shown instead of GitHub's English one) and a `live` app link (else the repo's GitHub homepage). A card with a live app opens the repo, with a "Live app" button. These entries also draw the cards when GitHub can't be reached. The card shows the repo's licence from GitHub.
 - `privateRepos`: repos that aren't public yet, listed by hand as "Private" tickets, optionally with a `url` to a live app. Once a repo goes public, its live card replaces the manual entry.
 - `pin`, `hide`, `includeForks`, `maxRepos`: further tuning.
 
