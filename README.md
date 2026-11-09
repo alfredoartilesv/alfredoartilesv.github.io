@@ -51,4 +51,7 @@ Layout and motion inspired by [carnilove.ashfall.studio](https://carnilove.ashfa
 
 With `prefers-reduced-motion` on, or if the scripts in `assets/vendor/` fail to load, the site falls back to simple fade-in reveals.
 
-The CV content and PDFs are personal. Please don't reuse them as your own.
+## Licence
+- **Code** (HTML structure, CSS, JavaScript: `index.html`'s markup, `404.html`, `assets/style.css`, `assets/main.js`, `assets/motion.js`, `assets/config.js`): [MIT](LICENSE). Use it as a template for your own site.
+- **Personal content** (the CV text in `index.html`, `assets/cv_*.pdf`, `assets/og.png`): © 2026 Alfredo Artiles Vallecillos, all rights reserved. Replace it with your own if you reuse the code; please don't present it as yours.
+- **Third-party code** in `assets/vendor/` keeps its own licence: GSAP and ScrollTrigger under the [GSAP Standard License](https://gsap.com/standard-license) (free, including commercial use), Lenis under the MIT License (© darkroom.engineering). Fonts are served by Google Fonts under the SIL Open Font License.
