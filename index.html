@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alfredo Artiles · Software Engineer · Rail &amp; Mobility</title>
+  <meta name="description" content="C/C++ software engineer building ticketing, validation and train-control systems for railways. Projects, experience and CV.">
+  <meta name="theme-color" content="#F6E1CE">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23F6E1CE'/%3E%3Cpath d='M8 20V11a4 4 0 014-4h8a4 4 0 014 4v9z' fill='%23e2472f'/%3E%3Ccircle cx='12' cy='23' r='2' fill='%230f2437'/%3E%3Ccircle cx='20' cy='23' r='2' fill='%230f2437'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span class="progress__bar"></span><svg class="progress__train" viewBox="0 0 40 20"><rect x="1" y="2" width="34" height="13" rx="4" fill="#e2472f"/><rect x="6" y="5" width="6" height="5" rx="1" fill="#F6E1CE"/><rect x="15" y="5" width="6" height="5" rx="1" fill="#F6E1CE"/><rect x="24" y="5" width="6" height="5" rx="1" fill="#F6E1CE"/><circle cx="9" cy="17" r="2.2" fill="#0f2437"/><circle cx="27" cy="17" r="2.2" fill="#0f2437"/></svg></div>
+
+<header class="header">
+  <a class="logo" href="#top" aria-label="Alfredo Artiles"><span class="logo__mark">AA</span><span class="logo__text">Alfredo<br>Artiles</span></a>
+  <div class="header__right">
+    <div class="lang" role="group" aria-label="Language">
+      <button data-set-lang="en" class="is-on">EN</button><button data-set-lang="es">ES</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
+      <span class="en">Menu</span><span class="es">Menú</span><i></i>
+    </button>
+  </div>
+</header>
+
+<nav class="menu" id="menu" aria-hidden="true">
+  <ol>
+    <li><a href="#intro"><b>01</b><span class="en">About</span><span class="es">Sobre mí</span></a></li>
+    <li><a href="#line"><b>02</b><span class="en">The Line</span><span class="es">La línea</span></a></li>
+    <li><a href="#projects"><b>03</b><span class="en">Projects</span><span class="es">Proyectos</span></a></li>
+    <li><a href="#skills"><b>04</b><span class="en">Departures</span><span class="es">Salidas</span></a></li>
+    <li><a href="#contact"><b>05</b><span class="en">Contact</span><span class="es">Contacto</span></a></li>
+  </ol>
+</nav>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__layers" aria-hidden="true">
+      <div class="layer layer--sky" data-speed="0.05">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+          <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E1CE"/><stop offset=".6" stop-color="#f7c9a3"/><stop offset="1" stop-color="#f0a67f"/></linearGradient></defs>
+          <rect width="1440" height="900" fill="url(#sky)"/>
+          <circle class="sun" cx="1020" cy="430" r="120" fill="#e2472f" opacity=".9"/>
+          <g class="clouds" fill="#fff" opacity=".7">
+            <g class="cloud c1"><ellipse cx="220" cy="190" rx="90" ry="22"/><ellipse cx="280" cy="176" rx="60" ry="22"/></g>
+            <g class="cloud c2"><ellipse cx="760" cy="130" rx="110" ry="24"/><ellipse cx="830" cy="116" rx="70" ry="22"/></g>
+            <g class="cloud c3"><ellipse cx="1200" cy="250" rx="80" ry="18"/><ellipse cx="1250" cy="238" rx="50" ry="18"/></g>
+          </g>
+        </svg>
+      </div>
+      <div class="layer layer--back" data-speed="0.14">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+          <path d="M0 620 C160 540 260 600 420 560 C560 520 640 590 800 550 C960 510 1100 580 1240 540 C1330 516 1400 540 1440 548 V900 H0Z" fill="#d9a08c"/>
+          <g fill="#c98a7c"><rect x="120" y="560" width="46" height="100"/><rect x="172" y="530" width="34" height="130"/><rect x="212" y="575" width="58" height="85"/><rect x="900" y="540" width="40" height="120"/><rect x="946" y="505" width="30" height="155"/><rect x="982" y="552" width="60" height="108"/><rect x="1260" y="548" width="44" height="110"/></g>
+        </svg>
+      </div>
+      <div class="layer layer--mid" data-speed="0.26">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+          <path d="M0 700 C200 630 340 690 520 650 C700 610 820 680 1000 640 C1180 600 1320 660 1440 640 V900 H0Z" fill="#7b6b86"/>
+          <g stroke="#3b3150" stroke-width="4" fill="none">
+            <path d="M120 780V640M120 650h50M520 780V640M520 650h50M920 780V640M920 650h50M1320 780V640M1320 650h50"/>
+            <path d="M-20 662 Q 70 690 145 662 T 545 662 T 945 662 T 1345 662 T 1460 662" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+      <div class="layer layer--front" data-speed="0.4">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+          <path d="M0 760 H1440 V900 H0Z" fill="#3b3150"/>
+          <rect x="0" y="770" width="1440" height="8" fill="#0f2437"/>
+          <g fill="#0f2437" opacity=".55"><rect x="0" y="800" width="1440" height="4"/></g>
+          <g class="ties" fill="#0f2437" opacity=".6"></g>
+          <g class="train">
+            <rect x="0" y="672" width="520" height="86" rx="26" fill="#e2472f"/>
+            <rect x="0" y="720" width="520" height="14" fill="#F6E1CE"/>
+            <g fill="#F6E1CE"><rect x="40" y="692" width="56" height="26" rx="5"/><rect x="116" y="692" width="56" height="26" rx="5"/><rect x="192" y="692" width="56" height="26" rx="5"/><rect x="268" y="692" width="56" height="26" rx="5"/><rect x="344" y="692" width="56" height="26" rx="5"/></g>
+            <path d="M430 672 H494 Q520 672 520 700 V740 H430Z" fill="#0f2437"/>
+            <rect x="446" y="684" width="48" height="30" rx="6" fill="#F6E1CE"/>
+            <rect x="140" y="660" width="80" height="12" rx="3" fill="#0f2437"/>
+            <g fill="#0f2437"><circle cx="70" cy="764" r="13"/><circle cx="130" cy="764" r="13"/><circle cx="390" cy="764" r="13"/><circle cx="450" cy="764" r="13"/></g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero__copy">
+      <p class="eyebrow"><span class="en">Software engineer · rail &amp; mobility</span><span class="es">Ingeniero de software · ferrocarril y movilidad</span></p>
+      <h1 data-split>
+        <span class="en">Code that keeps trains on time</span><span class="es">Código que mantiene los trenes a su hora</span>
+      </h1>
+      <p class="hero__sub"><span class="en">C/C++ on Linux, ticketing machines and train control — from Madrid to Dublin to Cairo.</span><span class="es">C/C++ sobre Linux, máquinas de ticketing y control de trenes — de Madrid a Dublín y El Cairo.</span></p>
+      <div class="hero__cta">
+        <a class="btn btn--red" href="#projects"><span class="en">See projects</span><span class="es">Ver proyectos</span></a>
+        <a class="btn" href="assets/cv_english_latex.pdf" download data-lang-only="en">Download CV</a>
+        <a class="btn" href="assets/cv_espanol_latex.pdf" download data-lang-only="es">Descargar CV</a>
+      </div>
+    </div>
+    <div class="scrollcue" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span>C++</span><span>Linux</span><span>Railway</span><span>Ticketing</span><span>MQTT</span><span>OPC-UA</span><span>Python</span><span>Docker</span><span>Jenkins</span><span>I2C</span>
+      <span>C++</span><span>Linux</span><span>Railway</span><span>Ticketing</span><span>MQTT</span><span>OPC-UA</span><span>Python</span><span>Docker</span><span>Jenkins</span><span>I2C</span>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="intro" id="intro">
+    <p class="kicker reveal"><span class="en">Platform 01 · About</span><span class="es">Andén 01 · Sobre mí</span></p>
+    <h2 class="big" data-split>
+      <span class="en">Five years building software for the way people move</span>
+      <span class="es">Cinco años creando software para la forma en que nos movemos</span>
+    </h2>
+    <p class="lead reveal">
+      <span class="en">Software Engineer with five years of experience in the mobility sector, specialising in C++ and Linux. International railway and ticketing projects in Ireland and Egypt, contributing to both development and technical leadership.</span>
+      <span class="es">Ingeniero de Software con cinco años de experiencia en el sector de movilidad, especializado en C++ y Linux. Proyectos internacionales de ferrocarril y ticketing en Irlanda y Egipto, aportando tanto desarrollo como liderazgo técnico.</span>
+    </p>
+    <ul class="stats">
+      <li class="reveal"><b data-count="5">0</b><span class="en">years in mobility</span><span class="es">años en movilidad</span></li>
+      <li class="reveal"><b data-count="3">0</b><span class="en">countries on the map</span><span class="es">países en el mapa</span></li>
+      <li class="reveal"><b data-count="93" data-suffix="%">0</b><span class="en">plate reads, 400+ wagons</span><span class="es">lecturas de matrículas, +400 vagones</span></li>
+      <li class="reveal"><b data-count="100" data-prefix="€" data-suffix="M+">0</b><span class="en">Eurail research programme</span><span class="es">programa de investigación Eurail</span></li>
+    </ul>
+  </section>
+
+  <!-- THE LINE (experience) -->
+  <section class="line" id="line">
+    <div class="line__head">
+      <p class="kicker reveal"><span class="en">Platform 02 · Experience</span><span class="es">Andén 02 · Experiencia</span></p>
+      <h2 class="big" data-split><span class="en">The Line</span><span class="es">La línea</span></h2>
+    </div>
+    <div class="line__track">
+      <div class="line__rail"><span class="line__fill"></span><svg class="line__train" viewBox="0 0 30 30"><circle cx="15" cy="15" r="13" fill="#e2472f" stroke="#F6E1CE" stroke-width="3"/><rect x="9" y="9" width="12" height="9" rx="2" fill="#F6E1CE"/></svg></div>
+
+      <article class="station reveal">
+        <div class="station__num">1</div>
+        <div class="station__body">
+          <p class="meta"><span class="en">Madrid, Spain · Sept 2024 – Present</span><span class="es">Madrid, España · Sept 2024 – Presente</span></p>
+          <h3>Indra Group</h3>
+          <p class="role"><span class="en">C/C++ Software Engineer</span><span class="es">Ingeniero de Software C/C++</span></p>
+          <ul>
+            <li><span class="en">Technical leadership on international ticketing and validation projects in Ireland and Egypt: tasks, incidents and a development team.</span><span class="es">Liderazgo técnico en proyectos internacionales de ticketing y validación en Irlanda y Egipto: tareas, incidencias y equipo de desarrollo.</span></li>
+            <li><span class="en">Software for Egyptian railway ticket vending machines and contactless card validation.</span><span class="es">Software para máquinas de venta de tickets y validación de tarjetas contactless en el ferrocarril egipcio.</span></li>
+            <li><span class="en">Peripheral integration over I2C, serial and IP: bill and coin validators, sensors, LEDs, 5G modems, GPS/GNSS.</span><span class="es">Integración de periféricos por I2C, serie e IP: billeteros y monederos, sensores, LEDs, módems 5G, GPS/GNSS.</span></li>
+            <li><span class="en">Cross-compilable C++ for multiple architectures with Jenkins CI.</span><span class="es">C++ cross-compilable para múltiples arquitecturas con CI en Jenkins.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="station station--right reveal">
+        <div class="station__num">2</div>
+        <div class="station__body">
+          <p class="meta"><span class="en">San Sebastián, Spain · Sept 2021 – Sept 2024</span><span class="es">San Sebastián, España · Sept 2021 – Sept 2024</span></p>
+          <h3>Ceit Technology Center</h3>
+          <p class="role"><span class="en">Researcher</span><span class="es">Investigador</span></p>
+          <ul>
+            <li><span class="en">Eurail: European research programme (&gt; €100M) on designing and standardising railway communication protocols with industry leaders.</span><span class="es">Eurail: programa europeo de investigación (&gt; 100 M€) de diseño y estandarización de protocolos de comunicación ferroviaria con empresas líderes.</span></li>
+            <li><span class="en">Python licence-plate reader for moving wagons — up to 93% correct reads over 400+ plates in a seven-day pilot.</span><span class="es">Lector de matrículas en Python para vagones en movimiento — hasta 93% de aciertos sobre más de 400 matrículas en un piloto de siete días.</span></li>
+            <li><span class="en">REST API that emulates railway network interference (delay, jitter, packet loss) with <code>tc</code> and Linux kernel tooling.</span><span class="es">API REST que emula interferencias en redes ferroviarias (delay, jitter, packet loss) con <code>tc</code> y herramientas del kernel de Linux.</span></li>
+            <li><span class="en">C++ remote train control over MQTT and OPC-UA, and train positioning with PostgreSQL and cloud messaging.</span><span class="es">Control remoto de tren en C++ con MQTT y OPC-UA, y posicionamiento de trenes con PostgreSQL y mensajería en la nube.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="station reveal">
+        <div class="station__num">3</div>
+        <div class="station__body">
+          <p class="meta"><span class="en">San Sebastián, Spain · Jun 2021</span><span class="es">San Sebastián, España · Jun 2021</span></p>
+          <h3>TECNUN, University of Navarra</h3>
+          <p class="role"><span class="en">B.Sc. Industrial Electronic Engineering</span><span class="es">Grado en Ingeniería Electrónica Industrial</span></p>
+          <ul>
+            <li><span class="en">Grade average 7.9 (BOE). Highest honours: Computer Science II (C++), Electronic Circuits.</span><span class="es">Nota media 7.9 (BOE). Matrícula de Honor: Informática II (C++), Circuitos Electrónicos.</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects" id="projects">
+    <p class="kicker reveal"><span class="en">Platform 03 · GitHub</span><span class="es">Andén 03 · GitHub</span></p>
+    <h2 class="big" data-split><span class="en">Tickets, please</span><span class="es">Billetes, por favor</span></h2>
+    <p class="lead reveal"><span class="en">Live from my public repositories. Each ticket opens the repo.</span><span class="es">En directo desde mis repositorios públicos. Cada billete abre el repositorio.</span></p>
+    <div class="chips" id="chips"></div>
+    <div class="tickets" id="tickets" aria-live="polite">
+      <div class="ticket ticket--skeleton"></div><div class="ticket ticket--skeleton"></div><div class="ticket ticket--skeleton"></div>
+    </div>
+    <p class="note" id="repoNote"></p>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills" id="skills">
+    <p class="kicker kicker--light reveal"><span class="en">Platform 04 · Skills</span><span class="es">Andén 04 · Habilidades</span></p>
+    <h2 class="big big--light" data-split><span class="en">Departures</span><span class="es">Salidas</span></h2>
+    <div class="board reveal" id="board">
+      <div class="board__row"><span class="board__label"><span class="en">Languages</span><span class="es">Lenguajes</span></span><span class="board__cells" data-flaps="C++|Python|Java|JavaScript"></span></div>
+      <div class="board__row"><span class="board__label"><span class="en">Tools</span><span class="es">Herramientas</span></span><span class="board__cells" data-flaps="Linux|Docker|Git|MQTT|PostgreSQL|Jenkins|I2C|Serial|REST|OPC-UA"></span></div>
+      <div class="board__row"><span class="board__label"><span class="en">Spoken</span><span class="es">Idiomas</span></span><span class="board__cells" data-flaps="Spanish · Native|English · TOEFL 111|French · B1" data-flaps-es="Español · Nativo|Inglés · TOEFL 111|Francés · B1"></span></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <p class="kicker reveal"><span class="en">Terminus · Contact</span><span class="es">Terminal · Contacto</span></p>
+    <h2 class="big" data-split><span class="en">Next stop: your project</span><span class="es">Próxima parada: tu proyecto</span></h2>
+    <div class="contact__links reveal">
+      <a class="btn btn--red" id="mailLink" href="mailto:alfredoartilesv@outlook.com">alfredoartilesv@outlook.com</a>
+      <a class="btn" id="liLink" href="https://linkedin.com/in/alfredo-artiles-4559a01a1" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" id="ghLink" href="https://github.com/alfredoartilesv" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="assets/cv_english_latex.pdf" download>CV · EN (PDF)</a>
+      <a class="btn" href="assets/cv_espanol_latex.pdf" download>CV · ES (PDF)</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span>© <span id="year"></span> Alfredo Antonio Artiles Vallecillo</span>
+  <span class="en">Madrid, Spain · CV source in LaTeX, versioned on GitHub</span><span class="es">Madrid, España · CV en LaTeX, versionado en GitHub</span>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/main.js"></script>
+</body>
+</html>
