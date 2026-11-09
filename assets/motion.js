@@ -68,17 +68,26 @@
   }
   const scrub = (vars) => ({ scrub: 0.5, ...vars });
 
+  // each section is covered a little differently: scale, lean and shade vary per card
+  const COVER = [
+    { scale: 0.90, rotate: 0 },      // hero
+    { scale: 0.95, rotate: -0.8 },   // about
+    { scale: 0.88, rotate: 0.8 },    // the line
+    { scale: 0.93, rotate: -1.1 },   // projects
+    { scale: 0.86, rotate: 0 }       // skills
+  ];
   function buildCover() {
     if (mobile()) return;
     stack.forEach((sec, i) => {
       const next = stack[i + 1];
       if (!next) return;
+      const c = COVER[i] || COVER[0];
       gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: { trigger: next, start: "top bottom", end: "top top", scrub: true }
       })
-        .to(inners.get(sec), { scale: 0.9, transformOrigin: "50% 100%" }, 0)
-        .to(overlays.get(sec), { opacity: 0.55 }, 0);
+        .to(inners.get(sec), { scale: c.scale, rotate: c.rotate, transformOrigin: "50% 100%" }, 0)
+        .to(overlays.get(sec), { opacity: 0.5 + (i % 2) * 0.12 }, 0);
     });
   }
 
@@ -127,34 +136,73 @@
     return chars;
   }
 
-  function buildText() {
-    // 1. headlines: lines rise in sequence, tied to the scroll position (like carnilove's ScrollText)
-    $$("[data-split]").filter(h => !h.closest(".hero")).forEach(h => {
-      h.classList.add("in"); // neutralise the CSS fallback reveal
-      const words = $$(".w > span", h);
+  // every section headline gets its own entrance
+  const HEAD = { intro: "rise", line: "wipe", projects: "flip", skills: "zoom", contact: "slide" };
+  function headline(h, kind) {
+    h.classList.add("in");
+    const words = $$(".w > span", h), wraps = $$(".w", h);
+    const st = (o) => scrub({ trigger: h, start: "top 96%", end: "top 55%", ...o });
+    if (kind === "wipe") {
+      gsap.set(words, { yPercent: 0 });
+      gsap.fromTo(h, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", ease: "power2.inOut", scrollTrigger: st() });
+      gsap.fromTo(words, { x: -60 }, { x: 0, ease: "power2.out", stagger: 0.06, scrollTrigger: st() });
+    } else if (kind === "flip") {
+      wraps.forEach(w => (w.style.overflow = "visible"));
+      gsap.fromTo(words, { rotateX: -95, yPercent: 40, autoAlpha: 0, transformOrigin: "50% 100%", transformPerspective: 700 },
+        { rotateX: 0, yPercent: 0, autoAlpha: 1, ease: "power3.out", stagger: 0.07, scrollTrigger: st() });
+    } else if (kind === "zoom") {
+      wraps.forEach(w => (w.style.overflow = "visible"));
+      gsap.fromTo(words, { yPercent: 0, scale: 2.4, autoAlpha: 0, filter: "blur(14px)" },
+        { scale: 1, autoAlpha: 1, filter: "blur(0px)", ease: "expo.out", stagger: 0.05, scrollTrigger: st() });
+    } else if (kind === "slide") {
+      wraps.forEach(w => (w.style.overflow = "visible"));
+      gsap.fromTo(words, { yPercent: 0, xPercent: i => (i % 2 ? 130 : -130), autoAlpha: 0 },
+        { xPercent: 0, autoAlpha: 1, ease: "power3.out", stagger: 0.05, scrollTrigger: st() });
+    } else { // rise: lines climb out of a mask
       gsap.fromTo(words, { yPercent: i => 105 + 25 * (i % 3) }, {
-        yPercent: 0, ease: "power2.out", stagger: { each: 0.03 },
-        scrollTrigger: scrub({ trigger: h, start: "top 96%", end: "top 55%" })
-      });
-    });
+        yPercent: 0, ease: "power2.out", stagger: { each: 0.03 }, scrollTrigger: st() });
+    }
+  }
 
-    // 2. lead paragraphs: character-by-character fade as you read down the page
+  function buildText() {
+    $$("[data-split]").filter(h => !h.closest(".hero")).forEach(h => headline(h, HEAD[h.closest("section")?.id] || "rise"));
+
+    // lead paragraphs: the intro fades in letter by letter as you read; the others pop in word by word on arrival
     $$(".lead").forEach(p => {
       p.classList.remove("reveal"); p.style.opacity = 1; p.style.transform = "none";
       const chars = splitChars(p);
-      gsap.set(chars, { autoAlpha: 0.12 });
-      gsap.to(chars, {
-        autoAlpha: 1, ease: "none", stagger: { each: 0.012 },
-        scrollTrigger: scrub({ trigger: p, start: "top 82%", end: "bottom 52%", scrub: 0.6 })
-      });
+      if (p.closest("#intro")) {
+        gsap.set(chars, { autoAlpha: 0.12 });
+        gsap.to(chars, { autoAlpha: 1, ease: "none", stagger: { each: 0.012 },
+          scrollTrigger: scrub({ trigger: p, start: "top 82%", end: "bottom 52%", scrub: 0.6 }) });
+      } else {
+        const words = $$(".cw", p);
+        gsap.fromTo(words, { y: 36, autoAlpha: 0, rotate: 3 }, { y: 0, autoAlpha: 1, rotate: 0, ease: "power3.out", duration: 0.9, stagger: 0.035,
+          scrollTrigger: { trigger: p, start: "top 88%", toggleActions: "play none none reverse" } });
+      }
     });
 
-    // 3. kickers + stats + other small items slide up and fade
-    $$(".kicker.reveal, .stats li.reveal, .contact__links.reveal, .board.reveal").forEach(el => {
+    // kickers: tiny slide
+    $$(".kicker.reveal").forEach(el => {
       el.classList.remove("reveal"); el.style.opacity = 1; el.style.transform = "none"; el.style.transition = "none";
-      gsap.fromTo(el, { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, ease: "power2.out",
-        scrollTrigger: scrub({ trigger: el, start: "top 94%", end: "top 70%" }) });
+      gsap.fromTo(el, { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "power2.out",
+        scrollTrigger: scrub({ trigger: el, start: "top 94%", end: "top 74%" }) });
     });
+
+    // stats: alternate sides, springy
+    $$(".stats li.reveal").forEach((el, i) => {
+      el.classList.remove("reveal"); el.style.opacity = 1; el.style.transform = "none"; el.style.transition = "none";
+      gsap.fromTo(el, { x: i % 2 ? 90 : -90, y: 30, scale: 0.85, autoAlpha: 0 }, { x: 0, y: 0, scale: 1, autoAlpha: 1, ease: "back.out(1.6)",
+        scrollTrigger: scrub({ trigger: el, start: "top 96%", end: "top 66%" }) });
+    });
+
+    // contact buttons: triggered pop, staggered (not scrubbed)
+    const links = $(".contact__links");
+    if (links) {
+      links.classList.remove("reveal"); links.style.opacity = 1; links.style.transform = "none"; links.style.transition = "none";
+      gsap.fromTo($$(".btn", links), { scale: 0.5, y: 40, autoAlpha: 0 }, { scale: 1, y: 0, autoAlpha: 1, ease: "back.out(2.2)", duration: 0.8, stagger: 0.09,
+        scrollTrigger: { trigger: links, start: "top 92%", toggleActions: "play none none reverse" } });
+    }
   }
 
   /* ---------- the line: trail draws, stations tilt in ---------- */
@@ -164,20 +212,23 @@
       trigger: track, start: "top 60%", end: "bottom 60%", scrub: true,
       onUpdate: s => track.style.setProperty("--p", s.progress.toFixed(4))
     });
+    const small = () => innerWidth < 960;
     $$(".station").forEach((st, i) => {
       st.classList.remove("reveal"); st.style.opacity = 1; st.style.transform = "none"; st.style.transition = "none";
       const body = $(".station__body", st), num = $(".station__num", st);
       const side = st.classList.contains("station--right") ? 1 : -1;
       st.classList.add("in");
-      gsap.fromTo(body, { y: 110, rotate: 2.2 * side, autoAlpha: 0.0 }, {
-        y: 0, rotate: 0, autoAlpha: 1, ease: "power3.out",
-        scrollTrigger: scrub({ trigger: st, start: "top 98%", end: "top 55%" })
-      });
-      gsap.fromTo(num, { scale: 0.2, rotate: -90 }, {
-        scale: 1, rotate: 0, ease: "back.out(2)",
-        scrollTrigger: scrub({ trigger: st, start: "top 90%", end: "top 62%" })
-      });
-      // exit: the card leans away as it leaves the top, like images in the reference
+      // 1: slides in from the left, 2: from the right, 3: rises and unfolds
+      const from = [
+        { x: small() ? -50 : -200, y: 40, rotate: -3, autoAlpha: 0 },
+        { x: small() ? 50 : 200, y: 40, rotate: 3, autoAlpha: 0 },
+        { x: 0, y: 130, scale: 0.88, rotateX: 18, transformPerspective: 900, autoAlpha: 0 }
+      ][i % 3];
+      gsap.fromTo(body, from, { x: 0, y: 0, rotate: 0, scale: 1, rotateX: 0, autoAlpha: 1, ease: "power3.out",
+        scrollTrigger: scrub({ trigger: st, start: "top 98%", end: "top 55%" }) });
+      gsap.fromTo(num, { scale: 0.2, rotate: -90 + i * 60 }, { scale: 1, rotate: 0, ease: "back.out(2)",
+        scrollTrigger: scrub({ trigger: st, start: "top 90%", end: "top 62%" }) });
+      // exit: leans away as it leaves the top
       gsap.to(body, { y: -50, rotate: -1.6 * side, ease: "none",
         scrollTrigger: { trigger: st, start: "bottom 35%", end: "bottom top", scrub: true } });
     });
@@ -186,13 +237,17 @@
   /* ---------- project tickets ---------- */
   function buildTickets() {
     const box = $("#tickets");
+    const FROM = [
+      { y: 90, rotateX: -25 },                 // drops in from below
+      { scale: 0.55, rotate: 9, y: 40 },       // spins up from small
+      { x: 140, rotateY: 35, y: 20 }           // swings in from the right
+    ];
     const play = () => {
       const t = $$(".ticket:not(.ticket--skeleton)", box);
       t.forEach(el => el.classList.remove("pop"));
-      gsap.fromTo(t, { y: 90, rotateX: -25, autoAlpha: 0 }, {
-        y: 0, rotateX: 0, autoAlpha: 1, ease: "expo.out", duration: 1.2, stagger: 0.1,
-        scrollTrigger: { trigger: box, start: "top 88%", toggleActions: "play none none reverse" }
-      });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: box, start: "top 88%", toggleActions: "play none none reverse" } });
+      t.forEach((el, i) => tl.fromTo(el, { ...FROM[i % 3], autoAlpha: 0 },
+        { x: 0, y: 0, scale: 1, rotate: 0, rotateX: 0, rotateY: 0, autoAlpha: 1, ease: i % 3 === 1 ? "back.out(1.8)" : "expo.out", duration: 1.1 }, i * 0.1));
     };
     new MutationObserver(() => { if (box.querySelector(".ticket:not(.ticket--skeleton)")) { play(); ScrollTrigger.refresh(); } })
       .observe(box, { childList: true });
@@ -201,9 +256,13 @@
 
   /* ---------- skills board rows ---------- */
   function buildBoard() {
-    $$(".board__row").forEach(row => {
-      gsap.fromTo(row, { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "power3.out",
-        scrollTrigger: scrub({ trigger: row, start: "top 92%", end: "top 70%" }) });
+    const board = $("#board");
+    board.classList.remove("reveal"); board.style.opacity = 1; board.style.transform = "none"; board.style.transition = "none";
+    gsap.fromTo(board, { clipPath: "inset(0 0 100% 0 round 18px)" }, { clipPath: "inset(0 0 0% 0 round 18px)", ease: "power2.inOut",
+      scrollTrigger: scrub({ trigger: board, start: "top 92%", end: "top 55%" }) });
+    $$(".board__row").forEach((row, i) => {
+      gsap.fromTo(row, { x: i % 2 ? 90 : -90, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "power3.out",
+        scrollTrigger: scrub({ trigger: row, start: "top 92%", end: "top 66%" }) });
     });
   }
 
