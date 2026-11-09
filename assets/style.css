@@ -213,3 +213,18 @@ html.motion main>#hero{position:sticky}
 html,body{overflow-x:clip;max-width:100%}
 main,main>section,.hero{overflow-x:clip}
 .ticker{max-width:100vw}
+
+/* phones: belt and braces against sideways panning */
+html,body{touch-action:pan-y pinch-zoom}
+.progress,.header{overflow-x:clip}
+@media(max-width:799px){
+  html,body{overflow-x:hidden}
+  main,main>section{overflow:hidden}
+  .ticker{margin-left:0;margin-right:0}
+}
+@media(max-width:640px){
+  .station{padding-left:66px;padding-right:8px}
+  .station__num{width:46px;height:46px;font-size:20px}
+  .line__rail{left:19px}
+  .line__train{width:32px}
+}
